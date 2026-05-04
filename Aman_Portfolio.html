@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aman Verma – AI & Full-Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0A0E1A;
+    --surface: #111827;
+    --surface2: #1A2235;
+    --accent: #4F8EF7;
+    --accent2: #7C3AED;
+    --accent3: #06D6A0;
+    --text: #E8EDF5;
+    --muted: #8899BB;
+    --border: rgba(79,142,247,0.15);
+    --glow: rgba(79,142,247,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 60px;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    color: var(--accent); letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+  }
+  .orb1 { width: 600px; height: 600px; background: rgba(79,142,247,0.12); top: -100px; right: -100px; }
+  .orb2 { width: 400px; height: 400px; background: rgba(124,58,237,0.1); bottom: -50px; left: -50px; }
+  .orb3 { width: 300px; height: 300px; background: rgba(6,214,160,0.07); top: 40%; right: 20%; }
+  .hero-content { position: relative; z-index: 1; max-width: 780px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.25);
+    border-radius: 100px;
+    font-size: 0.8rem; color: var(--accent); letter-spacing: 0.06em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  h1.hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.03em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-subtitle {
+    font-size: 1.15rem; color: var(--muted); margin-top: 20px; max-width: 560px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn {
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.25s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff; border: none;
+    box-shadow: 0 0 30px rgba(79,142,247,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(79,142,247,0.5); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text); border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); background: var(--glow); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: flex; gap: 48px; margin-top: 60px;
+    padding-top: 40px; border-top: 1px solid var(--border);
+    animation: fadeUp 0.7s 0.4s ease both;
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800; color: var(--accent);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 90px 60px; position: relative; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  h2.section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800; letter-spacing: -0.02em;
+    margin-bottom: 48px;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 16px; font-size: 1rem; }
+  .about-text strong { color: var(--text); }
+  .about-info { display: flex; flex-direction: column; gap: 20px; }
+  .info-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .info-icon { font-size: 1.2rem; width: 32px; text-align: center; }
+  .info-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
+  .info-value { font-size: 0.92rem; color: var(--text); }
+  .info-value a { color: var(--accent); text-decoration: none; }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px;
+    transition: all 0.3s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .skill-card-icon { font-size: 1.8rem; margin-bottom: 12px; }
+  .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    padding: 3px 10px;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 100px;
+    font-size: 0.75rem; color: var(--accent);
+  }
+  .tag.green { background: rgba(6,214,160,0.1); border-color: rgba(6,214,160,0.2); color: var(--accent3); }
+  .tag.purple { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.2); color: #A78BFA; }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--surface); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 30px;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card:hover { border-color: rgba(79,142,247,0.3); transform: translateY(-4px); box-shadow: 0 24px 48px rgba(0,0,0,0.4); }
+  .project-type {
+    font-size: 0.72rem; letter-spacing: 0.1em; font-weight: 600;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .project-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 12px; line-height: 1.3;
+  }
+  .project-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .project-links { display: flex; gap: 12px; }
+  .proj-link {
+    padding: 8px 18px; border-radius: 8px; font-size: 0.82rem; text-decoration: none;
+    font-weight: 500; transition: all 0.2s;
+  }
+  .proj-link.primary { background: var(--accent); color: #fff; }
+  .proj-link.primary:hover { background: #3B7DE8; }
+  .proj-link.ghost { border: 1px solid var(--border); color: var(--muted); }
+  .proj-link.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .result-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: rgba(6,214,160,0.12);
+    border: 1px solid rgba(6,214,160,0.25);
+    border-radius: 100px;
+    font-size: 0.75rem; color: var(--accent3); font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  /* ── EXPERIENCE / RESEARCH ── */
+  #research { background: var(--bg); }
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
+    width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .timeline-item { position: relative; margin-bottom: 40px; padding-left: 28px; }
+  .timeline-dot {
+    position: absolute; left: -28px; top: 8px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+    box-shadow: 0 0 12px rgba(79,142,247,0.5);
+  }
+  .timeline-date { font-size: 0.78rem; color: var(--accent3); letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; }
+  .timeline-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+  .timeline-org { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+  .timeline-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { background: var(--surface); }
+  .cert-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+  .cert-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px 28px;
+    flex: 1; min-width: 280px;
+    transition: all 0.3s;
+  }
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .cert-issuer { font-size: 0.78rem; color: var(--accent); letter-spacing: 0.06em; font-weight: 600; margin-bottom: 6px; }
+  .cert-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .cert-skills { font-size: 0.83rem; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); text-align: center; }
+  #contact .section-title { margin-bottom: 16px; }
+  #contact p { color: var(--muted); margin-bottom: 40px; font-size: 1rem; }
+  .contact-cards { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
+  .contact-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; text-decoration: none;
+    transition: all 0.25s;
+  }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(0,0,0,0.3); }
+  .contact-card-icon { font-size: 1.4rem; }
+  .contact-card-label { font-size: 0.75rem; color: var(--muted); }
+  .contact-card-value { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 30px 60px;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem; color: var(--muted);
+  }
+  footer span { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    #hero { padding: 100px 24px 60px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .stats-bar { gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Aman</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Open to Internships — June 2025
+    </div>
+    <h1 class="hero-name">
+      Hi, I'm<br/>
+      <span class="gradient-text">Aman</span>
+    </h1>
+    <p class="hero-subtitle">
+      CSE (AI & DS) student specializing in <strong style="color:var(--text)">deep learning research</strong> and
+      <strong style="color:var(--text)">full-stack development</strong>. I build transformer-based AI systems for medical imaging and explore agentic AI.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      <a href="https://github.com/aman5123" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num">95.17%</div>
+        <div class="stat-label">Best Model Accuracy</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Projects Built</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">DL Architectures Benchmarked</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6th</div>
+        <div class="stat-label">Semester, B.Tech CSE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I Am</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a 6th-semester <strong>B.Tech Computer Science (AI & Data Science)</strong> student at Government Hydro Engineering College, Bilaspur, HP. My passion lies at the intersection of deep learning research and practical software development.</p>
+      <p>I've worked extensively on <strong>medical image analysis</strong> — benchmarking transformer architectures like ViT-Small/16, EfficientNet-B3, and ResNet50 for gastrointestinal and skin lesion classification. I use PyTorch, timm, and Grad-CAM++ as my primary tools.</p>
+      <p>On the web side, I'm actively building my <strong>MERN stack</strong> skills and exploring <strong>Agentic AI</strong> — building LLM-powered applications that can reason and act autonomously.</p>
+      <p>I'm actively looking for <strong>remote internships</strong> starting June 2025 where I can contribute real work and continue learning in a professional environment.</p>
+    </div>
+    <div class="about-info">
+      <div class="info-row">
+        <div class="info-icon">🎓</div>
+        <div>
+          <div class="info-label">EDUCATION</div>
+          <div class="info-value">B.Tech CSE (AI & DS) — CGPA 6.9</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div>
+          <div class="info-label">LOCATION</div>
+          <div class="info-value">Bilaspur, Himachal Pradesh, India</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📧</div>
+        <div>
+          <div class="info-label">EMAIL</div>
+          <div class="info-value"><a href="mailto:amanvrma089@gmail.com">amanvrma089@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🔗</div>
+        <div>
+          <div class="info-label">LINKEDIN</div>
+          <div class="info-value"><a href="https://www.linkedin.com/in/aman-aman-214ba9304" target="_blank">linkedin.com/in/aman-aman-214ba9304</a></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">💻</div>
+        <div>
+          <div class="info-label">GITHUB</div>
+          <div class="info-value"><a href="https://github.com/aman5123" target="_blank">github.com/aman5123</a></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <div>
+          <div class="info-label">PHONE</div>
+          <div class="info-value">+91 6230314140</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I Work With</div>
+  <h2 class="section-title">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">🧠</div>
+      <h3>Deep Learning</h3>
+      <div class="skill-tags">
+        <span class="tag">PyTorch</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">timm</span>
+        <span class="tag">Keras</span>
+        <span class="tag">HuggingFace</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔬</div>
+      <h3>Model Architectures</h3>
+      <div class="skill-tags">
+        <span class="tag">ViT Transformer</span>
+        <span class="tag">EfficientNet</span>
+        <span class="tag">ResNet</span>
+        <span class="tag">U-Net</span>
+        <span class="tag">CNN</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🩺</div>
+      <h3>Medical AI</h3>
+      <div class="skill-tags">
+        <span class="tag green">Image Classification</span>
+        <span class="tag green">Segmentation</span>
+        <span class="tag green">Grad-CAM++</span>
+        <span class="tag green">EigenCAM</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">📊</div>
+      <h3>ML / Data Science</h3>
+      <div class="skill-tags">
+        <span class="tag">scikit-learn</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">Matplotlib</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🌐</div>
+      <h3>Web Development</h3>
+      <div class="skill-tags">
+        <span class="tag purple">HTML</span>
+        <span class="tag purple">CSS</span>
+        <span class="tag purple">JavaScript</span>
+        <span class="tag purple">MERN (Learning)</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🤖</div>
+      <h3>Agentic AI (Learning)</h3>
+      <div class="skill-tags">
+        <span class="tag purple">LLM APIs</span>
+        <span class="tag purple">Prompt Engineering</span>
+        <span class="tag purple">RAG Pipelines</span>
+        <span class="tag purple">LangChain</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🛠️</div>
+      <h3>Tools & Platforms</h3>
+      <div class="skill-tags">
+        <span class="tag">Git / GitHub</span>
+        <span class="tag">Kaggle</span>
+        <span class="tag">Google Colab</span>
+        <span class="tag">VS Code</span>
+        <span class="tag">Jupyter</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">💬</div>
+      <h3>Languages</h3>
+      <div class="skill-tags">
+        <span class="tag green">Python</span>
+        <span class="tag green">JavaScript</span>
+        <span class="tag green">SQL (Basic)</span>
+        <span class="tag green">HTML / CSS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">What I've Built</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-type">🔬 AI Research</div>
+      <span class="result-badge">✓ 95.17% Accuracy</span>
+      <h3>Gastrointestinal Image Classification</h3>
+      <p>Benchmarked EfficientNet-B3, ResNet50, and ViT-Small/16 on the 8-class Kvasir dataset. ViT-Small achieved best performance with 95.17% test accuracy. Implemented Grad-CAM++ and EigenCAM for interpretability.</p>
+      <div class="project-stack">
+        <span class="tag">PyTorch</span><span class="tag">timm</span><span class="tag">Grad-CAM++</span><span class="tag">ViT</span><span class="tag">Kaggle</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/aman5123/kvasir-classification" target="_blank" class="proj-link primary">GitHub ↗</a>
+        <a href="#" class="proj-link ghost">Paper (Under Review)</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">🔬 AI Research</div>
+      <span class="result-badge">✓ Segmentation + Classification</span>
+      <h3>Skin Cancer Detection</h3>
+      <p>Built a complete deep learning pipeline for skin lesion classification and pixel-wise segmentation on dermoscopy images. Used U-Net for segmentation and CNN transfer learning for classification.</p>
+      <div class="project-stack">
+        <span class="tag">PyTorch</span><span class="tag">U-Net</span><span class="tag">CNN</span><span class="tag">OpenCV</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/aman5123" target="_blank" class="proj-link primary">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">🤖 AI Application</div>
+      <h3>AI Symptom Checker Frontend</h3>
+      <p>Designed and built a clean, responsive frontend interface for an AI-powered symptom checker. Features accessible UI components, intuitive symptom input flow, and dynamic result rendering.</p>
+      <div class="project-stack">
+        <span class="tag purple">HTML</span><span class="tag purple">CSS</span><span class="tag purple">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/aman5123" target="_blank" class="proj-link primary">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">💬 AI Application</div>
+      <h3>Chatbot Application</h3>
+      <p>Built an interactive conversational chatbot with a JavaScript UI, API integration for responses, and smooth dynamic message rendering. Clean, mobile-friendly interface with real-time interaction.</p>
+      <div class="project-stack">
+        <span class="tag purple">JavaScript</span><span class="tag purple">HTML/CSS</span><span class="tag">REST API</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/aman5123" target="_blank" class="proj-link primary">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-type">🌐 Web Development</div>
+      <h3>Snapchat Clone</h3>
+      <p>Cloned the core Snapchat UI with responsive design, DOM manipulation, and component-based structure. Practiced modern CSS layouts, JavaScript interactions, and mobile-first design principles.</p>
+      <div class="project-stack">
+        <span class="tag purple">HTML</span><span class="tag purple">CSS</span><span class="tag purple">JavaScript</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/aman5123" target="_blank" class="proj-link primary">GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESEARCH / EXPERIENCE -->
+<section id="research">
+  <div class="section-label">Experience & Research</div>
+  <h2 class="section-title">Research Timeline</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2024 – 2025</div>
+      <div class="timeline-title">Research Paper – GI Image Classification</div>
+      <div class="timeline-org">Dept. of CSE, Govt. Hydro Engineering College, Bilaspur HP</div>
+      <div class="timeline-desc">Conducted a full benchmark study comparing three transformer-based architectures on the Kvasir dataset. Wrote, trained, evaluated, and visualized all experiments independently. Paper currently under review for conference publication.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2024</div>
+      <div class="timeline-title">Skin Cancer Classification & Segmentation</div>
+      <div class="timeline-org">Academic Deep Learning Project</div>
+      <div class="timeline-desc">Applied transfer learning and semantic segmentation techniques for automated skin cancer analysis. Evaluated using Dice coefficient, IoU, precision, and recall across clinical dermoscopy datasets.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2024</div>
+      <div class="timeline-title">Web Development Certification</div>
+      <div class="timeline-org">AcmeGrade — Online Certification</div>
+      <div class="timeline-desc">Completed certified web development training covering HTML5, CSS3, and modern JavaScript. Applied skills in building responsive frontends and cloning production-grade UIs.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2022 – Present</div>
+      <div class="timeline-title">B.Tech – CSE (AI & Data Science)</div>
+      <div class="timeline-org">Government Hydro Engineering College, Bilaspur, HP (HPU Affiliated)</div>
+      <div class="timeline-desc">Studying core AI/ML subjects including deep learning, computer vision, NLP, data structures, algorithms, and statistics. 5th Sem SGPA: 7.55. Currently in 6th semester.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="cert-grid">
+    <div class="cert-card">
+      <div class="cert-issuer">ACMEGRADE</div>
+      <div class="cert-name">Web Development Fundamentals</div>
+      <div class="cert-skills">HTML5 · CSS3 · JavaScript · Responsive Design</div>
+    </div>
+    <div class="cert-card" style="border-style: dashed; opacity: 0.6;">
+      <div class="cert-issuer">UPCOMING</div>
+      <div class="cert-name">Add more certifications here</div>
+      <div class="cert-skills">Consider: Coursera Deep Learning Specialization · Google ML Crash Course · AWS Cloud Foundations</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Let's Talk</div>
+  <h2 class="section-title">Get In Touch</h2>
+  <p>I'm actively looking for remote internships (Jun–Jul 2025 onwards).<br/>Whether it's AI research, ML engineering, or full-stack — let's connect.</p>
+  <a href="mailto:amanvrma089@gmail.com" class="btn btn-primary" style="font-size:1rem; padding: 16px 36px;">Send Me an Email</a>
+  <div class="contact-cards">
+    <a href="mailto:amanvrma089@gmail.com" class="contact-card">
+      <div class="contact-card-icon">📧</div>
+      <div>
+        <div class="contact-card-label">EMAIL</div>
+        <div class="contact-card-value">amanvrma089@gmail.com</div>
+      </div>
+    </a>
+    <a href="tel:+916230314140" class="contact-card">
+      <div class="contact-card-icon">📞</div>
+      <div>
+        <div class="contact-card-label">PHONE</div>
+        <div class="contact-card-value">+91 6230314140</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/aman-aman-214ba9304" target="_blank" class="contact-card">
+      <div class="contact-card-icon">🔗</div>
+      <div>
+        <div class="contact-card-label">LINKEDIN</div>
+        <div class="contact-card-value">aman-aman-214ba9304</div>
+      </div>
+    </a>
+    <a href="https://github.com/aman5123" target="_blank" class="contact-card">
+      <div class="contact-card-icon">💻</div>
+      <div>
+        <div class="contact-card-label">GITHUB</div>
+        <div class="contact-card-value">github.com/aman5123</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & Built by <span>Aman Verma</span> · Bilaspur, HP, India · 2025</p>
+</footer>
+
+</body>
+</html>
